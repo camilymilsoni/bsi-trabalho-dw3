@@ -1,0 +1,124 @@
+{% extends "templates/base.html" %}
+
+{% block content %}
+
+    <div class="card shadow border-2 border-dark-subtle mt-5" x-data="contaForm()">
+        <div class="card-header">
+            <div class="d-flex justify-content-center align-items-center text-center">
+                <h3 class="my-2 text-uppercase">{{ title }}</h3>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="mx-4">
+                <div class="row my-2">
+                    <div class="col-12">
+                        <div>
+                            <form>
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="num_conta" class="mb-2">Número da Conta</label>
+                                            <input type="text" class="form-control" id="num_conta" x-model="form.num_conta" required="required">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <div class="form-group">
+                                            <label for="nome_titular" class="mb-2">Nome do Titular</label>
+                                            <input type="text" class="form-control" id="nome_titular" x-model="form.nome_titular" required="required">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="saldo" class="mb-2">Saldo</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text" id="basic-addon1">R$</span>
+                                                <input type="number" class="form-control" id="saldo" x-model="form.saldo" required aria-describedby="basic-addon1">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="data_abertura" class="mb-2">Data de Abertura</label>
+                                            <input type="date" class="form-control" id="data_abertura" x-model="form.data_abertura" required="required">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mt-4">
+                                    <button type="button" @click="insertForm()" class="btn" style="background-color: var(--blue-color); color: white !important;">Salvar</button>
+                                    <a href="/Contas/ManutContas" class="btn btn-secondary" role="button" aria-disabled="true">Retornar</a>
+                                </div>
+                            </form>
+                            <div class="mt-2">
+                                <template x-if="message">
+                                    <div :class="messageClass" x-text="message"></div>
+                                </template>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        window.onload = function () {
+            windowOnLoad();
+            const localErro = "{{ erro }}";
+            if (localErro != "") {
+                alert("[vwContas|onload] Servidor retornou o erro:" + localErro);
+            }
+            $("#num_conta").focus();
+        };
+        function contaForm() {
+            return {
+                form: {
+                    num_conta: '',
+                    nome_titular: '',
+                    saldo: '',
+                    data_abertura: '',
+                    removido: false
+                },
+                message: '',
+                messageClass: '',
+                async insertForm() {
+                    try {
+                        console.log("Valor na página:", JSON.stringify(this.form))
+                        const response = await fetch('/Contas/InsertContas', {
+                            method: 'POST',
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify(this.form)
+                        });
+                        const result = await response.json();
+                        console.log("Valor na response:", response);
+                        console.log("Valor na result:", result);
+                        if (result.status === "ok") {
+                            alert("Conta corrente cadastrada com sucesso!");
+                            this.resetForm();
+                        } else {
+                            const errorData = result.status;
+                            this.message = `Erro! Não foi possível cadastrar a conta corrente devido ao erro: ${errorData}`;
+                            this.messageClass = 'alert alert-danger';
+                        }
+                    } catch (error) {
+                        this.message = `Erro de conexão: ${
+                            error.message
+                        }`;
+                        this.messageClass = 'alert alert-danger';
+                    }
+                },
+                resetForm() {
+                    this.form = {
+                        num_conta: '',
+                        nome_titular: '',
+                        saldo: '',
+                        data_abertura: '',
+                        removido: false
+                    };
+                    this.message = false;
+                }
+            };
+        }
+    </script>
+
+{% endblock %}

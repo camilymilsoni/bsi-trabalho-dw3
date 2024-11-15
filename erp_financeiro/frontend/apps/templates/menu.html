@@ -1,0 +1,47 @@
+<nav class="navbar py-3">
+  <div class="logo_item text-dark">
+    <img src="https://cdn2.iconfinder.com/data/icons/financial-tools/512/financial_tools-512.png" alt="Ícone"></i>ERP Financeiro
+  </div>
+  <div class="navbar_content">
+    <div class="dropdown">
+      <button class="btn btn-link dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class='bx bx-user'></i>
+      </button>
+      <ul class="dropdown-menu dropdown-menu-end dropdown-menu-logout" aria-labelledby="userDropdown">
+        <li>
+          <button class="dropdown-item" onclick="siadLogout()">Logout</button>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<nav class="sidebar">
+  <div class="menu_content">
+    <ul class="menu_items">
+      <div class="menu_title menu_principal"></div>
+      <li class="item">
+        <a href="/" class="nav_link">
+          <span class="navlink_icon">
+            <i class="bx bx-home-alt"></i>
+          </span>
+          <span class="navlink">Home</span>
+        </a>
+      </li>
+    </ul>
+    <ul class="menu_items">
+      <div class="menu_title menu_financeiro"></div>
+      <li class="item">
+        <div href="#" class="nav_link submenu_item">
+          <span class="navlink_icon">
+            <i class='bx bx-dollar-circle'></i>
+          </span>
+          <span class="navlink">Conta Corrente</span>
+          <i class="bx bx-chevron-right arrow-left"></i>
+        </div>
+        <ul class="menu_items submenu">
+          <a href="/Contas/ManutContas" class="nav_link sublink">Manutenção</a>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</nav>
