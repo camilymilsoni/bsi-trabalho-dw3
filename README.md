@@ -71,7 +71,7 @@ O sistema foi desenvolvido com arquitetura Cliente-Servidor, oferecendo uma inte
 
 1. **Clonar o repositório**:
    ```bash
-   git clone https://github.com/caua075/atv_aval_dw3.git
+   git clone https://github.com/camilymilsoni/bsi-trabalho-dw3.git
 
 2. **Instalar as dependências do backend e frontend**:
    
